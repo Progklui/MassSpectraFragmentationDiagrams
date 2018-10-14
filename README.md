@@ -51,7 +51,9 @@ A list of options opens - the rest should be self-explanatory. Just experiment a
 ```
 Note on good practice: 
 ```
+```
 This repo contains all necessary programs - keep them in this folder and simply add/create folders RawFiles/DATEOFMEASUREMENT/PLANTNAME . Only ReAdW.exe needs to be run on a Windows machine. The rest works on e.g. Ubuntu 14.04 fine. If you want to use different file structures you are encouraged to change a bit of the code. It is just optimized for specific analyis so far!
+```
 
 ## Prerequisites
 
