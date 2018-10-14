@@ -4,7 +4,7 @@ This project helps creating fragmentation diagrams of mass spectrometer data col
 
 ## Getting Started - plotting the first diagram
 
-* I - convert XCalibur .raw into readable .mzXML:
+### I - convert XCalibur .raw into readable .mzXML:
 
 On a windows machine open cmd.exe in the folder where ReAdw.exe and zlib1.dll are installed (hold Strg-Tab and right click on folder - open folder with cmd.exe). Type in the following command (replace capital letters with your settings):
 
@@ -14,7 +14,7 @@ ReAdw --mzXML RawFiles\DDMMYYYY\PLANTNAME\FILENAME.raw
 
 Of course the corresponding .raw ought to be in that folder first. After successful conversion you will have a FILENAME.mzXML file in this folder. It is important to keep this structure of folders for the next steps. So - we are ready for the next step.
 
-* II - select parts of file to extract:
+### II - select parts of file to extract:
 
 In OS where the emzed2 environment is installed (e.g. Ubuntu 14.04) open a terminal and type:
 
@@ -38,7 +38,7 @@ Open peak_extraction.py and edit the following variables:
 
 Run programm with F5 or similar. Maybe repeat for different versions.
 
-* III - plotting and analysing (where the fun begins):
+### III - plotting and analysing (where the fun begins):
 
 In OS where python 3.x environment is installed open folder where fragmentationDiagrams.py is located. Run the following:
 
@@ -46,9 +46,12 @@ In OS where python 3.x environment is installed open folder where fragmentationD
 python3.5 fragmentationDiagrams.py
 ```
 
-A list of options opens - the rest should be self-explanatory. 
+A list of options opens - the rest should be self-explanatory. Just experiment a bit. Also with the peak tables generated and stored into a .csv file (bear in mind that everything you create is stored but can easily be overwritten by plotting again!)
 
-Note on good practice: this repo contains all necessary programs - keep them in this folder and simply add/create folders RawFiles/DATEOFMEASUREMENT/PLANTNAME . Only ReAdW.exe needs to be run on a Windows machine. The rest works on e.g. Ubuntu 14.04 fine. 
+```
+Note on good practice: 
+```
+This repo contains all necessary programs - keep them in this folder and simply add/create folders RawFiles/DATEOFMEASUREMENT/PLANTNAME . Only ReAdW.exe needs to be run on a Windows machine. The rest works on e.g. Ubuntu 14.04 fine. If you want to use different file structures you are encouraged to change a bit of the code. It is just optimized for specific analyis so far!
 
 ## Prerequisites
 
@@ -69,6 +72,32 @@ However in the developing process some errors occured with specific versions of 
 ### extracting of peaks and preparation for plotting
 
 The code for extracting the peaks out of the .mzXML files received from ReAdW.exe is run in an emzed2 environment using python 2.7.
+
+## Keeping updated
+
+If you want to keep updated with this repo run the following:
+
+### Clone fork
+
+```
+git clone https://github.com/Progklui/MassSpectraFragmentationDiagrams.git
+```
+
+## Add remote from this repo in your forked repo
+ 
+```
+cd into/forked_repo
+git remote add upstream https://github.com/Progklui/MassSpectraFragmentationDiagrams.git
+git fetch upstream
+```
+
+## Updating
+
+```
+git pull upstream master
+```
+
+Done!
 
 ## Built With
 
