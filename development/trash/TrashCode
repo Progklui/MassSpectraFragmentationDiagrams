@@ -1,0 +1,196 @@
+def plot_diag(catab, catabolite, fragmentation_mode):
+    %matplotlib qt
+    
+    global time
+    
+    fig_1 = plt.figure(1)
+    
+    ax = plt.axes()
+    ax.yaxis.grid()
+    
+    overall_length = 0
+    
+    dataframe = pd.DataFrame()
+    dataframe_scaled = pd.DataFrame()
+    
+    indexing = 0
+    
+    for i in catab: 
+        data_to_draw, data_to_draw_scaled = prepare_data(int(i))
+        
+        length = data_to_draw.scan.size
+        
+        if length > overall_length:
+            overall_length = length
+            
+    for i in catab:
+        data_to_draw, data_to_draw_scaled = prepare_data(int(i))
+        
+        length = data_to_draw.scan.size
+        x = np.arange(0, (length/overall_length)*100, ((length/overall_length)*100)/length)
+        
+        plt.plot(x, data_to_draw.intensity, label = i + ' Da')
+        
+        if indexing == 0:
+            d = {i: data_to_draw.intensity}
+            
+            dataframe = dataframe.append(pd.DataFrame(d))
+            #dataframe = dataframe.groupby(dataframe.index).sum()
+            indexing = 1
+        else:
+            dataframe_two = pd.DataFrame({i: data_to_draw.intensity})
+            #pd.merge_asof(dataframe, dataframe_two)
+            #dataframe = pd.concat([dataframe, dataframe_two], axis=1)
+            
+        #dataframe.insert(loc=indexing, column=str(indexing), value=data_to_draw.intensity, ignore_index=False)
+        #indexing = indexing + 1
+        #pd.merge_asof(dataframe, pd.DataFrame({i: data_to_draw.intensity}))
+        #dataframe = dataframe.combine_first(pd.DataFrame({i: data_to_draw.intensity}))
+        #pd.merge(dataframe, pd.DataFrame({'nce': x,i: data_to_draw.intensity}), how='left', right_on='invoice')
+        
+        #dataframe['nce' + i] = x
+        #dataframe['intensity' + i] = data_to_draw.intensity
+    
+    plt.title(catabolite+fragmentation_mode)
+    plt.xlabel('normalised collision energy (in %)')
+    plt.ylabel('intensity (arbitrary unit)')
+    plt.legend()
+    
+    ax.set_ylim(ymin=0)
+    ax.set_xlim([0,90])
+    
+    directory = 'diagrams_output/'+catabolite+'/'+time+'/'
+    diag_name = directory+catabolite+fragmentation_mode+'unscaled'
+    
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+    
+    dataframe.to_csv(diag_name+'.csv')
+    plt.savefig(diag_name+'.png')
+    
+    pl.dump(fig_1, open(diag_name+'.pickle','wb'))
+    
+    index = 0
+    lines = 2
+    
+    dataframe = pd.DataFrame()
+
+    while index <= lines - 1:
+        data = fig_1.axes[0].lines[index].get_data()
+   
+        if index == 0:
+            dataframe_two = pd.DataFrame(data[0])
+            dataframe = pd.concat([dataframe, dataframe_two], axis=1)
+
+            dataframe_two = pd.DataFrame(data[1])
+            dataframe = pd.concat([dataframe, dataframe_two], axis=1)
+        else:
+            dataframe_two = pd.DataFrame(data[1]) 
+            dataframe = pd.concat([dataframe, dataframe_two], axis=1)
+
+        index = index + 1
+
+    print(dataframe)
+    #with open(diag_name+'.pickle', 'wb') as pickle_file:
+     #   pl.dump(ax, pickle_file)
+    
+    plt.figure(2)
+    
+    axes = plt.axes()
+    axes.yaxis.grid()
+    
+    overall_length = 0
+    
+    for i in catab: 
+        data_to_draw, data_to_draw_scaled = prepare_data(int(i))
+        
+        length = data_to_draw_scaled.scan.size
+        
+        if length > overall_length:
+            overall_length = length
+        
+    for i in catab:
+        data_to_draw, data_to_draw_scaled = prepare_data(int(i))
+        
+        length = data_to_draw_scaled.scan.size
+        # x = np.arange(0, (length/overall_length)*100, ((length/overall_length)*100)/length)
+        x = np.arange(0, (length/(overall_length+1))*100, ((length/(overall_length+1))*100)/length)
+        
+        plt.plot(x, data_to_draw_scaled.intensity, label = i + ' Da')
+    
+    plt.title(catabolite+fragmentation_mode)
+    plt.xlabel('normalised collision energy (in %)')
+    plt.ylabel('intensity in % of highest peak')
+    plt.legend()
+    
+    axes.set_ylim([0,105])
+    axes.set_xlim([0,90])
+    
+    diag_name = directory+catabolite+fragmentation_mode+'scaled'
+    
+    plt.savefig(diag_name+'.png')
+
+
+
+
+dataframe = pd.DataFrame()
+    
+    fig_2 = plt.figure(2)
+    
+    axes = plt.axes()
+    axes.yaxis.grid()
+    
+    overall_length = 0
+    
+    for i in catab: 
+        data_to_draw, data_to_draw_scaled = prepare_data(int(i))
+        
+        length = data_to_draw_scaled.scan.size
+        
+        if length > overall_length:
+            overall_length = length
+        
+    for i in catab:
+        data_to_draw, data_to_draw_scaled = prepare_data(int(i))
+        
+        length = data_to_draw_scaled.scan.size
+        #x = np.arange(0, (length/overall_length)*100, ((length/overall_length)*100)/length)
+        #x = np.arange(0,96,4)
+        x = np.arange(20,43,1)
+        #x = np.arange(0, (length/(overall_length+1))*100, ((length/(overall_length+1))*100)/length)
+        
+        plt.plot(x, data_to_draw_scaled.intensity, label = i + ' Da')
+    
+    plt.title(plant+' - '+category+'-'+catabolite+fragmentation_mode)
+    plt.xlabel('normalised collision energy (in %)')
+    plt.ylabel('intensity in % of highest peak')
+    plt.legend()
+    
+    axes.set_ylim([0,105])
+    #axes.set_xlim([0,96])
+    axes.set_xlim([20,43])
+    
+    diag_name = directory+catabolite+fragmentation_mode+'scaled'
+    
+    index = 0
+
+    while index <= lines - 1:
+        data = fig_2.axes[0].lines[index].get_data()
+   
+        if index == 0:
+            dataframe_two = pd.DataFrame(data[0])
+            dataframe = pd.concat([dataframe, dataframe_two], axis=1)
+
+            dataframe_two = pd.DataFrame(data[1])
+            dataframe = pd.concat([dataframe, dataframe_two], axis=1)
+        else:
+            dataframe_two = pd.DataFrame(data[1]) 
+            dataframe = pd.concat([dataframe, dataframe_two], axis=1)
+
+        index = index + 1
+
+    dataframe.to_csv(diag_name+'.csv')
+    plt.savefig(diag_name+'.png')
+    pl.dump(fig_2, open(diag_name+'.pickle','wb'))
+    
+    plt.show()
