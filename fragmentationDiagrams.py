@@ -193,7 +193,7 @@ while choice != '0':
     if choice == '1':
         print(" ")
 
-        time = input("time of measurement: ")
+        time = input("time of measurement (DDMMYYYY): ")
         filename = input("filename (.csv file - without last number): ")
 
         plant = input("plant: ")
@@ -265,7 +265,7 @@ while choice != '0':
     if choice == '4':
         print(" ")
 
-        time = input("time of measurement: ")
+        time = input("time of measurement (DDMMYYYY): ")
         filename = input("filename (.csv file - without last number): ")
 
         plant = input("plant: ")
